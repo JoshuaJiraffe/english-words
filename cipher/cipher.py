@@ -90,18 +90,22 @@ def get_words_from_nums(nums: List[int]) -> List[str]:
 def encrypt_plaintext_nums(plain_nums: List[int], key: int) -> List[int]:
     global MODULO
     cipher_nums = []
-    cipher_nums.append((plain_nums[0] + key) % MODULO)
+    cipher_nums.append((plain_nums[0] + pow(key, key, MODULO)) % MODULO)
     for i in range(1, len(plain_nums)):
-        cipher_nums.append((plain_nums[i] + plain_nums[i - 1]) % MODULO)
+        cipher_nums.append(
+            (plain_nums[i] + pow(key, plain_nums[i - 1], MODULO)) % MODULO
+        )
     return cipher_nums
 
 
 def decrypt_ciphertext_nums(cipher_nums: List[int], key: int) -> List[int]:
     global MODULO
     plain_nums = []
-    plain_nums.append((cipher_nums[0] - key + MODULO) % MODULO)
+    plain_nums.append((cipher_nums[0] - pow(key, key, MODULO) + MODULO) % MODULO)
     for i in range(1, len(cipher_nums)):
-        plain_nums.append((cipher_nums[i] - plain_nums[i - 1] + MODULO) % MODULO)
+        plain_nums.append(
+            (cipher_nums[i] - pow(key, plain_nums[i - 1], MODULO) + MODULO) % MODULO
+        )
     return plain_nums
 
 
